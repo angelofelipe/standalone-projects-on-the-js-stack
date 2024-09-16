@@ -1,0 +1,11 @@
+[ENUMS in JS](https://www.sohamkamani.com/javascript/enums/)
+[Incremente JSON](https://stackoverflow.com/questions/42754552/how-can-i-increment-value-of-json-data-if-it-meets-certain-conditions)
+[Understanding CommonJS vs. ES Modules in JavaScript](https://www.syncfusion.com/blogs/post/js-commonjs-vs-es-modules)
+[CommonJS vs ES Modules for Express Node](https://stackoverflow.com/questions/77120722/commonjs-vs-es-modules-for-express-node)
+[CommonJS vs ES Modules in Node.js [A Detailed Comparison]](https://www.knowledgehut.com/blog/web-development/commonjs-vs-es-modules)
+[Como adicionar um objeto em um array em JavaScript](https://horadecodar.com.br/como-adicionar-um-objeto-em-um-array-em-javascript/)
+
+[How to change value of object which is inside an array using JavaScript or jQuery?](https://stackoverflow.com/questions/4689856/how-to-change-value-of-object-which-is-inside-an-array-using-javascript-or-jquer)
+[How to modify an object’s property in an array of objects in JavaScript ?](https://www.geeksforgeeks.org/how-to-modify-an-objects-property-in-an-array-of-objects-in-javascript/)
+[JavaScript Update Object in Array: A Comprehensive Guide](https://www.dhiwise.com/post/javascript-update-object-in-array-a-comprehensive-guide)
+[Update Object in Array Without Mutation in Javascript](https://www.codevertiser.com/update-javascript-array-of-object/)
