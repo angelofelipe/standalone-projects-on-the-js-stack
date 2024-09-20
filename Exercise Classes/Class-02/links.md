@@ -5,9 +5,11 @@
 ## Modules and JSON
 [BlackBox AI - How package.json and package-lock.json work](https://www.blackbox.ai/share/edb41f69-d418-4d78-802f-3c259726ddcc)
 
-### Checking types before running certain functions that depend on others class functions
+## Checking types before running certain functions that depend on others class functions
 [Does JavaScript have the interface type (such as Java's 'interface')?](https://stackoverflow.com/questions/3710275/does-javascript-have-the-interface-type-such-as-javas-interface)
 
+## Interfaces in JS (this is bad and not resolve, go to typescript)
+[Implementing Interfaces in JavaScript](https://www.geeksforgeeks.org/implementing-interfaces-in-javascript/)
 
 ## Other links
 [Como criar Interface em JavaScript?](https://pt.stackoverflow.com/questions/344098/como-criar-interface-em-javascript)
