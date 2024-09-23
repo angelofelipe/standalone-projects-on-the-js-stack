@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "clear": "^0.1.0",
-    "readline-sync": "^1.4.10"
+    "keypress": "^0.2.1",
+    "readline-sync": "^1.4.10",
+    "tty": "^1.0.1"
   },
   "type": "module"
 }
