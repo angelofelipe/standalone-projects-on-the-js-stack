@@ -1,4 +1,6 @@
+import { read } from 'fs';
 import { stdin } from 'process';
+import readline from 'readline-sync'
 
 function captureChar(){
   return new Promise((resolve) => {
@@ -17,12 +19,16 @@ async function main() {
   console.log('Press a key:');
   const char = await captureChar();
   console.log(`You pressed: ${char}`);
-  if (char === '*') {
+  if (char == "*") {
     // process.exit();
+    console.log("*")
     return;
   }
-  main(); // Call main again to capture the next character
+  await main(); // Call main again to capture the next character
 }
 
 await main();
-process.exit();
+console.log("Saiu de todos os mains")
+// const newLine = readline.question();
+// console.log(newLine);
+// process.exit();
