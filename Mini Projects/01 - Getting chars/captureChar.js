@@ -27,8 +27,10 @@ async function main() {
   await main(); // Call main again to capture the next character
 }
 
-await main();
-console.log("Saiu de todos os mains")
-// const newLine = readline.question();
-// console.log(newLine);
-// process.exit();
+(async () => {
+  await main();
+  console.log("Saiu de todos os mains");
+  // const newLine = readline.question();
+  // console.log(newLine);
+  // process.exit();
+})();
