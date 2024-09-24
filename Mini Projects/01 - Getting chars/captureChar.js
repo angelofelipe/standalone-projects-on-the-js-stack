@@ -1,4 +1,3 @@
-import { read } from 'fs';
 import { stdin } from 'process';
 import readline from 'readline-sync'
 
