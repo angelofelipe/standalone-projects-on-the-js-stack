@@ -43,10 +43,10 @@ export default class Menu {
         console.log(`
                         SPACE INVADERS DELIVERY GAME!
                         Choose your difficulty (digit the number and press enter):
-                        1. easy
-                        2. medium
-                        3. hard
-                        4. exit`);
+                        1. Easy
+                        2. Medium
+                        3. Hard
+                        4. Exit`);
     }
 
 

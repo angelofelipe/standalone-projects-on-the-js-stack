@@ -5,6 +5,8 @@ import StateCenterSpaceship from './StateCenterSpaceship.js';
 import StateRightSpaceship from './StateRightSpaceship.js';
 
 export default class FactorySpaceship {
+
+    
     static get(name, state, lifes) {
         if (!name || !state || !lifes) {
             throw new Error('Spaceship must have a name, state and lifes that not be null');
