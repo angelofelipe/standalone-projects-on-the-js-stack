@@ -1,12 +1,42 @@
 import Robot from "./Robot.js";
 import Checker from "../../Checker.js";
 import Attack from "../Attack.js";
+import Factory from '../../Factory.js';
 import StateLeftRobot from "./StateLeftRobot.js";
 import StateCenterRobot from "./StateCenterRobot.js";
 import StateRightRobot from "./StateRightRobot.js";
 
-export default class FactoryRobot {
-    static getRobot(state, patternAttack, lifes) {
+export default class FactoryRobot extends Factory {
+
+    static create(mode, state = 'center') {
+        switch (mode) {
+            case 'easy':
+                return FactoryRobot.easyMode(state);
+            case 'medium':
+                return FactoryRobot.mediumMode(state);
+            case 'hard':
+                return FactoryRobot.hardMode(state);
+            default:
+                throw new Error('Invalid mode');
+        }
+    }
+
+    static easyMode(state) {
+        let patternAtack = ['right', 'center', 'left'];
+        return FactoryRobot.get(state, patternAtack, 3);
+    }
+
+    static mediumMode(state) {
+        let patternAtack = ['right', 'center', 'left', 'center'];
+        return FactoryRobot.get(state, patternAtack, 5);
+    }
+
+    static hardMode(state) {
+        let patternAtack = ['right', 'center', 'left', 'center', 'left', 'right', 'right', 'center'];
+        return FactoryRobot.get(state, patternAtack, 10);
+    }
+
+    static get(state, patternAttack, lifes) {
         if (!state || !patternAttack || !lifes) {
             throw new Error('Robot must have a state, patternAttack and lifes that not be null');
         }
@@ -36,10 +66,12 @@ export default class FactoryRobot {
             case "right":
                 return new StateRightRobot();
             default:
-                return new StateCenterRobot();
+                throw new Error('Invalid state');
         }
     }
 }
 
-// const alienBear = FactoryRobot.getRobot('center', ['center','left','right'], 3);
-// console.log(alienBear);
+// const robot = FactoryRobot.get('center', ['center','left','right'], 3);
+// const robot = FactoryRobot.create('easy');
+// console.log(robot);
+// console.log(robot.stringState());

@@ -1,5 +1,10 @@
+import clear from 'clear';
+
+import sleep from './sleep.js'
+
 export default class Menu { 
     static defaultMenu() {
+        clear();
         console.log(`                                                                                                        |
                 8888888888888                                              8888888888888                |
         88888888888888888888888888888888888                  88888888888888888888888888888888888        |
@@ -69,6 +74,63 @@ export default class Menu {
                        11. Have fun!
                         Press Enter key to return to the main menu
                     `);
+    }
+
+    static registerName() {
+        this.defaultMenu();
+        console.log(`
+                        SPACE INVADERS DELIVERY GAME!
+                        Enter your name: `);
+    }
+
+    static registerInitialPosition() {
+        this.defaultMenu();
+        console.log(`
+                        SPACE INVADERS DELIVERY GAME!
+                        Enter your initial position (left, center or right): `);
+    }
+
+    static async loadingGame() {
+        this.defaultMenu();
+        console.log(`
+                        Loading game...`);
+        await sleep(1000);
+    }
+
+    static async instructionsToMove() {
+        this.defaultMenu();
+        console.log(`
+                        Use the 'w', 'A', 'S', 'D' keys to control the spaceship
+                        No need to press enter, just press the key and the spaceship will move`);
+        await sleep(2000);
+    }
+
+    static async newEnemy(enemy) {
+        this.defaultMenu();
+        console.log(`
+                        New enemy called ${enemy.name} appeared in the space road!
+                        Avoid it and deliver the packages!`);
+        await sleep(5000);
+    }
+    
+    static async gameOver() {
+        this.defaultMenu();
+        console.log(`
+                        GAME OVER!`);
+        await sleep(3000);
+    }
+
+    static async winGame() {
+        this.defaultMenu();
+        console.log(`
+                        CONGRATULATIONS!
+
+                        YOU ARE THE BEST PLAYER IN THE SPACE!
+
+                        DELIVERY ALL THE PACKAGES TO THE CLIENTS!
+
+                        YOU WIN AND DOMAINED THE SPACE!`);
+        await sleep(3000);
     }
 
 

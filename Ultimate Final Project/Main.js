@@ -1,18 +1,97 @@
+// extern modules
 import readline from 'readline-sync';
-import clear from 'clear';
 
+// my code
+import FactoryGame from './FactoryGame.js';
 import FactorySpaceship from './spaceship/FactorySpaceship.js';
-import Menu from './Menu.js';
 
-(() => {
+import Menu from './Menu.js';
+import game from './Game.js';
+
+// Main Manu -> 1. Start Game
+async function loadingGame() {
+    let option = '';
+    while (option !== '4') {
+        Menu.chooseDificulty();
+        option = readline.question();
+        switch (option) {
+            case '1': // Easy
+                await easyGameMode();
+                option = '4';
+                break;
+            case '2': // Medium
+                await mediumGameMode();
+                option = '4';
+                break;
+            case '3': // Hard
+                await hardGameMode();
+                option = '4';
+                break;
+            case '4': // Exit
+                break;
+        }
+        
+    }
+    
+}
+
+// Main Menu -> 2. Instructions
+function instructions() {
+    Menu.instructions();
+    let option = readline.question('Press "Enter" key to return to the main menu');
+}
+
+// Main Menu -> 1. Start Game -> Register User
+function registerUser(difficultyGame){
+    let notSuccess = true;
+    let player = null;
+    while (notSuccess) {
+        Menu.registerName();
+        const name = readline.question();
+        Menu.registerInitialPosition();
+        const initialPosition = readline.question();
+        try {
+            player = FactorySpaceship.create(name, initialPosition, difficultyGame);
+            notSuccess = false;
+        } catch(e) {
+            console.log(e.message);
+            readline.question('Press any key to try again');
+        }
+    }
+    
+    return player;
+}
+
+// Main Menu -> 1. Start Game -> 1. Easy
+async function easyGameMode() {
+    const player = registerUser(FactorySpaceship.easy);
+    const enemies = FactoryGame.easyMode();
+    await game(player, enemies);
+}
+
+// Main Menu -> 1. Start Game -> 2. Medium
+async function mediumGameMode() {
+    const player = registerUser(FactorySpaceship.medium);
+    const enemies = FactoryGame.mediumMode();
+    await game(player, enemies);
+}
+
+// Main Menu -> 1. Start Game -> 3. Hard
+async function hardGameMode() {
+    const player = registerUser(FactorySpaceship.hard);
+    const enemies = FactoryGame.hardMode();
+    await game(player, enemies);
+}
+
+// initial function
+(async () => {
     let play = true;
     while (play) {
-        clear();
         Menu.chooseMenu();
         let option = readline.question();
         switch (option) {
             case '1': // Start Game
-                loadingGame();
+                await loadingGame();
                 break;
             case '2': // Instructions
                 instructions();
@@ -27,68 +106,3 @@ import Menu from './Menu.js';
         }
     }
 })();
-
-// Main Manu -> 1. Start Game
-function loadingGame() {
-    let option = '';
-    while (option !== '4') {
-        option = readline.question();
-        switch (option) {
-            case '1': // Easy
-
-                break;
-            case '2': // Medium
-                // to implement
-                break;
-            case '3': // Hard
-                // to implement
-                break;
-            case '4': // Exit
-                option = '4'
-                break;
-        }
-        
-    }
-    
-    Menu.chooseDificulty();
-    let difficulty = readline.question();
-}
-
-
-// Main Menu -> 2. Instructions
-function instructions() {
-    clear();
-    Menu.instructions();
-    let option = readline.question('Press any key to return to the main menu');
-    // if (option) {
-    //     Menu.chooseMenu();
-    // }
-}
-
-// Main Menu -> 1. Start Game -> Register User
-function registerUser(difficultyGame){
-    let notSuccess = true;
-    while (notSuccess) {
-        clear();
-        Menu.defaultMenu();
-        const name = readline.question();
-        try {
-            
-        } catch{
-
-        }
-    }
-    
-    // const player
-    return 
-}
-
-
-// Main Menu -> 1. Start Game -> 1. Easy
-
-
-// Main Menu -> 1. Start Game -> 2. Medium
-
-// Main Menu -> 1. Start Game -> 3. Hard
-
-// Main Menu -> 1. Start Game -> 4. Exit

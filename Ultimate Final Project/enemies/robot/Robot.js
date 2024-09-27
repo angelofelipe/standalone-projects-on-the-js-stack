@@ -6,7 +6,7 @@ export default class Robot extends Enemy {
         super(name, lifes, state, patternAtack);
     }
 
-    nextPatternAttack() {
+    _nextPatternAttack() {
         const nextAttack = this._patternAtack.nextPatternAttack();
         this._state = FactoryRobot.getState(nextAttack);
         return nextAttack;

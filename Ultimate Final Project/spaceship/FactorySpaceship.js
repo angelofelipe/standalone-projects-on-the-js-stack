@@ -1,11 +1,44 @@
 import Spaceship from './Spaceship.js';
 import Checker from '../Checker.js';
+import Factory from '../Factory.js';
 import StateLeftSpaceship from './StateLeftSpaceship.js';
 import StateCenterSpaceship from './StateCenterSpaceship.js';
 import StateRightSpaceship from './StateRightSpaceship.js';
 
-export default class FactorySpaceship {
+export default class FactorySpaceship extends Factory {
+    static lifeInEasyMode = 10;
+    static lifeInMediumMode = 5;
+    static lifeInHardMode = 3;
 
+    static LEFT = 'left';
+    static CENTER = 'center';
+    static RIGHT = 'right';
+
+
+    static create(name, state, mode){
+        switch (mode) {
+            case 'easy':
+                return FactorySpaceship.easyMode(name, state);
+            case 'medium':
+                return FactorySpaceship.mediumMode(name, state);
+            case 'hard':
+                return FactorySpaceship.hardMode(name, state);
+            default:
+                throw new Error('Invalid mode');
+        }
+    }
+
+    static easyMode(name, state) {
+        return FactorySpaceship.get(name, state, this.lifeInEasyMode);
+    }
+
+    static mediumMode(name, state) {
+        return FactorySpaceship.get(name, state, this.lifeInMediumMode);
+    }
+
+    static hardMode(name, state) {
+        return FactorySpaceship.get(name, state, this.lifeInHardMode);
+    }
     
     static get(name, state, lifes) {
         if (!name || !state || !lifes) {
@@ -43,4 +76,6 @@ export default class FactorySpaceship {
 }
 
 // const spaceship = FactorySpaceship.get('Enterprise', 'center', '3');
+// const spaceship = FactorySpaceship.create('Enterprise', 'center', 'easy');
+// console.log(spaceship);
 // console.log(spaceship.stringState());

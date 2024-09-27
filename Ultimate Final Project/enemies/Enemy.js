@@ -10,12 +10,20 @@ export default class Enemy { // abstract class
         return this._state.stringState();
     }
 
-    nextPatternAttack() { /* implement in the child class */ }
-
-    decreaseLife() {
-        this._lifes--;
+    decreaseLife(criticalDamage = false) {
+        if (criticalDamage)
+            this._lifes -= 2;
+        else
+            this._lifes--;
+    }
+    
+    moveOn() {
+        return this._nextPatternAttack();
     }
 
+    // abstract method
+    _nextPatternAttack() { /* implement in the child class */ }
+    
     // Getters and Setters
     get name() {
         return this._name;
@@ -23,6 +31,10 @@ export default class Enemy { // abstract class
 
     get lifes() {
         return this._lifes;
+    }
+
+    get state() {
+        return this._state.state;
     }
 
 }
