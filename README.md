@@ -1,2 +1,2 @@
-# Tomorrow-POO-with-JS
-A repository with JS code in POO
+# Tomorrow-OOP-with-JS
+A repository with JS code in OOP
