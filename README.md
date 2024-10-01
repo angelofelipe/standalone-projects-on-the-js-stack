@@ -1,4 +1,12 @@
-# 000 - Tomorrow OOP with JS
+# Standalone Projects on the JS Stack
+
+In each subfolder exist mini projects that focus on improving determining abilities in JS stack.
+
+Feel free to walk around and see whatever you desire to see and use.
+
+Below is a brief description of each project and its respective subject and technologies: 
+
+### 000 - Tomorrow OOP with JS
 
 This project works on Object Oriented Programming (OOP) concepts using pure JS language. The main folder is called "Ultimate Final Project" which has a simple CLI mini game displayed using ASCII code.
 
