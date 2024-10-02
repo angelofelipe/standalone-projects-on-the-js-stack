@@ -1,7 +1,7 @@
 import readline from 'readline-sync'
 
 const NONLETTERS = /[^a-zA-Z]+/;
-const NONLETTERSsadf = /^[0-9]$/;
+// const NONLETTERSsadf = /^[0-9]$/;
 
 function readName(){
     while (true)
@@ -17,20 +17,16 @@ function readName(){
             return name;
         }
         catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
 }
 
 (() => {
-    // let user = {};
+    let user = {};
 
-    // user.name = readName();
-    // // user
+    user.name = readName();
 
-    // console.log(user);
+    console.log(user);
 
-    console.log("sdfsdf".length)
-    // let number = '4h';
-    // console.log(Number(number));
 })();
