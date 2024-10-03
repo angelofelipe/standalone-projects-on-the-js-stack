@@ -1,0 +1,13 @@
+{
+    "main": "src/app.js",
+    "scripts": {
+        "dev": "nodemon src/app.js",
+        "devufba": "node src/app.js"
+    },
+    "type": "module",
+    "dependencies": {
+        "express": "^4.21.0",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.7"
+    }
+}
