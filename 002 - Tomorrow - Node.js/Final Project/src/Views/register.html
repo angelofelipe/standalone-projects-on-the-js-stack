@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- action="/user/login" -->
+    <form method="post" id="register">
+        <input type="text" name="username" placeholder="name"/>
+        <input type="password" name="password" placeholder="password"/>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+<script>
+    // const form = document.querySelector('#register');
+    const form = document.getElementById('register');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch('/user/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(Object.fromEntries(formData))
+        })
+        // .then(res => res.json()) // body of the response
+        // .then(res => res)    // header of the response
+        .then(data => {
+            console.log(data.status);
+            if(data.status === 200) {
+                window.location.href = '/user/login';
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(err => console.log(err));
+    });
+</script>
+</html>

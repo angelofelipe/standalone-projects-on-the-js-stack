@@ -4,3 +4,4 @@ node_modules
 #ignoring files
 package-lock.json
 .replit
+.env
