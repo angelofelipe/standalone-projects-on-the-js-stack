@@ -13,26 +13,45 @@ const connection = createConnection({
 
 connection.connect((err) => {
   if (err) {
-    console.error('Erro ao conectar com database: ', err);
+    console.error('Error connecting to database: ', err);
     return;
   }
-  console.log('Conectado com sucesso!');
+  console.log('Connected successfully!');
 
-  const criarUsuario = `
-    CREATE TABLE IF NOT EXISTS usuarios (
+  const createUser = `
+    CREATE TABLE IF NOT EXISTS user (
       id INT AUTO_INCREMENT PRIMARY KEY,
-      nome VARCHAR(100) NOT NULL,
-      senha VARCHAR(100) NOT NULL
+      name VARCHAR(100) NOT NULL,
+      email VARCHAR(100) NOT NULL,
+      password VARCHAR(100) NOT NULL
     );
     `;
 
-   connection.query(criarUsuario, (err, result) => {
+   connection.query(createUser, (err, result) => {
        if (err) {
-           console.error('Erro ao criar tabela:', err);
+           console.error('Error creating table:', err);
            return;
        }
-       console.log('Tabela "usuarios" criada com sucesso!');
+       console.log('Table "user" created successfully!');
    });
+
+   const createPost = `
+    CREATE TABLE IF NOT EXISTS post (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(100) NOT NULL,
+      content TEXT NOT NULL,
+      userId INT NOT NULL,
+      FOREIGN KEY (userId) REFERENCES usuarios(id)
+    );
+    `;
+
+    connection.query(createPost, (err, result) => {
+      if (err) {
+        console.error('Error creating table:', err);
+        return;
+      }
+      console.log('Table "post" created successfully!');
+    })
 
 });
 

@@ -7,9 +7,10 @@
 </head>
 <body>
     <!-- action="/user/login" -->
-    <form method="post" id="register">
-        <input type="text" name="username" placeholder="name"/>
-        <input type="password" name="password" placeholder="password"/>
+    <form action="/user/register" method="POST" id="register">
+        <input type="text" name="name" placeholder="name" required/>
+        <input type="email" name="email" placeholder="email" required/>
+        <input type="password" name="password" placeholder="password" required/>
         <button type="submit">Submit</button>
     </form>
 </body>
@@ -26,13 +27,16 @@
             },
             body: JSON.stringify(Object.fromEntries(formData))
         })
-        // .then(res => res.json()) // body of the response
-        // .then(res => res)    // header of the response
+        .then(res => {
+            const status = res.status;
+            return res.json().then(data => {
+                return {status, ...data};
+            });
+        })
         .then(data => {
-            console.log(data.status);
             if(data.status === 200) {
                 window.location.href = '/user/login';
-            } else {
+            } else if(data.status === 400) {
                 alert(data.message);
             }
         })
