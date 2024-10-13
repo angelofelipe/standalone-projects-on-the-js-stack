@@ -23,7 +23,7 @@ connection.connect((err) => {
       id INT AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(100) NOT NULL,
       email VARCHAR(100) NOT NULL,
-      password VARCHAR(100) NOT NULL
+      password VARCHAR(60) NOT NULL
     );
     `;
 
@@ -41,7 +41,7 @@ connection.connect((err) => {
       title VARCHAR(100) NOT NULL,
       content TEXT NOT NULL,
       userId INT NOT NULL,
-      FOREIGN KEY (userId) REFERENCES usuarios(id)
+      FOREIGN KEY (userId) REFERENCES user(id)
     );
     `;
 

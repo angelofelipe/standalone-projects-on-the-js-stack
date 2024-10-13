@@ -1,7 +1,12 @@
 import path from 'path';
+import { stat } from 'fs';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 import * as query from '../Models/UserModel.js';
-import { stat } from 'fs';
+
+dotenv.config();
 
 // Validate email, nome, and senha using regex
 var nameRegex = /^[a-zA-Z\s]+$/;
@@ -27,13 +32,7 @@ export function registerUserGETP(req, res) {
 
 
 export function registerUserPOST(req, res) {
-  // go to the database and retrieve the user by email
-  // if the user exists, return an error message
-  // if the user does not exist, create the user and return a success message
-  // implement the regex for the data validation
-  console.log(req.body);
-
-  const { name, email, password } = req.body;
+  let { name, email, password } = req.body;
 
   // Validate the data
   if (!nameRegex.test(name)) {
@@ -46,7 +45,7 @@ export function registerUserPOST(req, res) {
   }
 
   // Check if the user already exists
-  query.getUserByEmail(email, (err, user) => {
+  query.getUserByEmail(email, async (err, user) => {
     if (err) {
       return res.status(500).json({ message: 'Database error when searching for user by email' });
     }
@@ -54,7 +53,7 @@ export function registerUserPOST(req, res) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Implement the password hashing
+    password = await bcrypt.hash(password, 10);
 
     query.createUser({ name, email, password }, (err, result) => {
       if (err) {
@@ -65,6 +64,9 @@ export function registerUserPOST(req, res) {
 
   });
 }
+// felipe
+// felipe@felipe.com
+// Aa123!@#
 
 
 export function logUserGETP(req, res) {
@@ -72,9 +74,46 @@ export function logUserGETP(req, res) {
 }
 
 export function logUserPOST(req, res) {
-  res.status(200).json({
-    message: 'Logged in successfully'
+  const { email, password } = req.body;
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: 'Invalid email format' });
+  }
+
+  query.getUserByEmail(email, async (err, user) => {
+    if (err) {
+      return res.status(500).json({ message: 'Database error when searching for user by email' });
+    }
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    const validPassword = await bcrypt.compare(password, hash);
+
+    if (!validPassword) {
+      return res.status(400).json({ message: 'Incorrect password' });
+    }
+
+    const tokens = {
+      acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 10 }),
+      refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 180 })
+    }
+
+    res.clearCookie();
+    res.cookie('acess_t', tokens.acess_t);
+    res.cookie('refresh_t', tokens.refresh_t);
+
+    return res.status(200).json({ message: 'Logged in successfully' });
   });
+
+}
+
+// Authenticated functions
+export function feedGETP(req, res) {
+
+  // Construct the page here, not in the frontend
+  res.sendFile(path.resolve('./src/Views/feed.html'));
 }
 
 // Get all posts of a user

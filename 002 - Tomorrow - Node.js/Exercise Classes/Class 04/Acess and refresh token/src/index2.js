@@ -11,10 +11,10 @@ app.use(express.urlencoded({extendable: true}))
 
 function authenticate(req, res, next) {
    const cookie = req.cookies;
-    if (!cookie) return res.status(403).send({ message: "Alguma coisa deu errado." });
-    try {
-        jwt.verify(cookie.acess_t, process.env.ACESS_TOKEN_KEY);
-        next();
+   if (!cookie) return res.status(403).send({ message: "Alguma coisa deu errado." });
+   try {
+      jwt.verify(cookie.acess_t, process.env.ACESS_TOKEN_KEY);
+      next();
    } catch (e) {
       jwt.verify(cookie.refresh_t, process.env.REFRESH_TOKEN_KEY, (err, user) => {
          if (err) return res.status(401).send(err);
