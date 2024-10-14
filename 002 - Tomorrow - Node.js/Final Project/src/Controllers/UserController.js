@@ -1,5 +1,4 @@
 import path from 'path';
-import { stat } from 'fs';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
@@ -18,9 +17,9 @@ export function getAllUsers(req, res) {
   query.getAllUsers((err, users) => {
     console.log(users)
     if (err) {
-      res.status(500).send('Erro ao buscar usuários');
+      return res.status(500).json({ message: 'Erro ao buscar usuários' });
     } else {
-      res.status(200).send(users);
+      return res.status(200).send(users);
     }
   });
 }
@@ -96,8 +95,10 @@ export function logUserPOST(req, res) {
     }
 
     const tokens = {
-      acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 10 }),
-      refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 180 })
+      // acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 10 }),
+      // refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 180 })
+      acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 500 }),
+      refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 3600 })
     }
 
     res.clearCookie();
@@ -111,21 +112,120 @@ export function logUserPOST(req, res) {
 
 // Authenticated functions
 export function feedGETP(req, res) {
-
-  // Construct the page here, not in the frontend
   res.sendFile(path.resolve('./src/Views/feed.html'));
 }
 
-// Get all posts of a user
-// To check further
-export function getAllPostsByUserId(req, res) {
-  console.log(`in function "getAllPostsOfTheUser": ${req.body.id}`);
-  query.getAllPostsByUserId(req.body.id, (err, posts) => {
-    console.log(posts)
+export function feedGETContent(req, res) {
+  query.getAllPosts((err, posts) => {
     if (err) {
-      res.status(500).send('Error fetching posts');
+      return res.status(500).json({ message: 'Error fetching posts' });
     } else {
-      res.status(200).send(posts);
+      return res.status(200).json(posts);
+    }
+  });
+}
+
+export function getPageMyPosts (req, res) {
+  res.sendFile(path.resolve('./src/Views/myPosts.html'));
+}
+
+export function getAllPostsByUserId(req, res) {
+  // console.log(`in function "getAllPostsOfTheUser": ${req.userId}`);
+  query.getAllPostsByUserId(req.userId, (err, posts) => {
+    // console.log(posts)
+    if (err) {
+      return res.status(500).json({ message: 'Error fetching posts' });
+    } else {
+      return res.status(200).send(posts);
+    }
+  });
+}
+
+export function getPostById (req, res) {
+  const { id } = req.params;
+
+  query.getPostById(id, (err, post) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error fetching post' });
+    } else if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    
+    if (post.userId !== req.userId) {
+      return res.status(403).json({ message: 'You do not have permission to view this post in this route' });
+    }
+    
+    return res.status(200).json(post);
+  });
+}
+
+export function updatePostPUT(req, res) {
+  const { title, content } = req.body;
+  const { id } = req.params;
+
+  query.getPostById(id, (err, post) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error fetching post' });
+    } else if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    } else if (post.userId !== req.userId) {
+      return res.status(403).json({ message: 'You do not have permission to edit this post' });
+    }
+    
+    query.updatePost({ id, title, content }, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error updating post' });
+      } else {
+        return res.status(200).json({message: 'Post updated successfully'});
+      }
+    });
+
+  });
+
+}
+
+export function deletePostDELETE (req, res) {
+  const { id } = req.params;
+
+  query.getPostById(id, (err, post) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error fetching post' });
+    } else if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    } else if (post.userId !== req.userId) {
+      return res.status(403).json({ message: 'You do not have permission to delete this post' });
+    }
+
+    query.deletePost(id, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error deleting post' });
+      } else {
+        return res.status(200).json({message: 'Post deleted successfully'});
+      }
+    });
+
+  });
+}
+
+export function addPostGETP(req, res) {
+  res.sendFile(path.resolve('./src/Views/addPost.html'));
+}
+
+export function addPostPOST(req, res) {
+  const { title, content } = req.body;
+  const userId = req.userId;
+
+  if (!title || !content || !userId) {
+    console.log(`${title}\n${content}\n${userId}`);
+    return res.status(400).json({ message: 'Missing data' });
+  }
+
+  query.createPost({ title, content, userId }, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Error creating post' });
+    } else {
+      return res.status(200).json({message: 'Post created successfully'});
     }
   });
 }

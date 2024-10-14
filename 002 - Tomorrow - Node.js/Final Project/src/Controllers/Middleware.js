@@ -3,6 +3,9 @@ import jwt from "jsonwebtoken";
 export function authenticate(req, res, next) {
    const cookie = req.cookies;
    if (!cookie) return res.status(403).send({ message: "No cookies sent. Please log in to receive authenticated cookies.." });
+   const userId = jwt.decode(cookie.acess_t).userId;
+   req.userId = userId;
+
    try {
       jwt.verify(cookie.acess_t, process.env.ACESS_TOKEN_KEY);
       next();

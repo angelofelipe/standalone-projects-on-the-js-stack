@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Add post</h1>
+    <form action="/user/post/add" method="POST" id="add-post">
+        <input type="text" name="title" id="title" placeholder="Title" required/>
+        <br/>
+        <textarea name="content" id="content-post" cols="24" rows="10" placeholder="Text content" required></textarea>
+        <br/>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+<script>
+    const form = document.getElementById('add-post');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch('/user/post/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(Object.fromEntries(formData))
+        })
+        .then(res => {
+            const status = res.status;
+            return res.json().then(data => {
+                return {status, ...data};
+            });
+        })
+        .then(data => {
+            if(data.status === 200) {
+                window.location.href = '/user/feed';
+            } else if(data.status === 500) {
+                alert(data.message);
+            }
+        })
+        .catch(err => console.log(err));
+    });
+</script>
+</html>

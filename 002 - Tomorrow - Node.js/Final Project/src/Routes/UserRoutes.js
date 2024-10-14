@@ -3,7 +3,8 @@ import cookieParser from 'cookie-parser';
 
 import { authenticate } from '../Controllers/Middleware.js';
 import {    getAllUsers, logUserGETP, logUserPOST, registerUserPOST, registerUserGETP,
-            feedGETP } from '../Controllers/UserController.js';
+            feedGETP, addPostGETP, addPostPOST, feedGETContent, getAllPostsByUserId,
+            updatePostPUT, getPageMyPosts, getPostById, deletePostDELETE } from '../Controllers/UserController.js';
 
 const router = Router();
 router.use(cookieParser());
@@ -21,5 +22,16 @@ router.post('/login', logUserPOST);
 router.use(authenticate);
 
 router.get('/feed', feedGETP);
+router.get('/feed/content', feedGETContent);
+
+router.get('/post/add', addPostGETP);
+router.post('/post/add', addPostPOST);
+
+router.get('/post/own', getPageMyPosts);
+router.get('/post/own/content', getAllPostsByUserId);
+
+router.get('/post/own/:id', getPostById);
+router.put('/post/own/:id', updatePostPUT);
+router.delete('/post/own/:id', deletePostDELETE);
 
 export default router;
