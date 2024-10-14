@@ -95,10 +95,10 @@ export function logUserPOST(req, res) {
     }
 
     const tokens = {
-      // acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 10 }),
-      // refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 180 })
-      acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 500 }),
-      refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 3600 })
+      acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 10 }),
+      refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 180 })
+      // acess_t: jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 500 }),
+      // refresh_t: jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_KEY, { expiresIn: 3600 })
     }
 
     res.clearCookie();

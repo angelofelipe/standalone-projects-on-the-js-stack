@@ -8,13 +8,23 @@ export function authenticate(req, res, next) {
 
    try {
       jwt.verify(cookie.acess_t, process.env.ACESS_TOKEN_KEY);
+
+      // TO delete
+      console.log(`Acess token: ${cookie.acess_t}`)
+      console.log(`Refresh token: ${cookie.refresh_t}`)
+
       next();
    } catch (e) {
       jwt.verify(cookie.refresh_t, process.env.REFRESH_TOKEN_KEY, (err, user) => {
-        if (err) return res.status(401).send(err);
-        const token = jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 10 });
-        res.cookie("acess_t", token);
-        next();
+         if (err) return res.status(401).send(err);
+         const token = jwt.sign({ userId: user.id }, process.env.ACESS_TOKEN_KEY, { expiresIn: 10 });
+         res.cookie("acess_t", token);
+
+         // To delete
+         console.log(`Acess token: ${res.cookie.acess_t}`)
+         console.log(`Refresh token: ${res.cookie.refresh_t}`)
+
+         next();
       });
    }
 }
